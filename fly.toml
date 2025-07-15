@@ -1,9 +1,7 @@
-app = "agentlayer-app"  
-
+app = "samantha_os"
 primary_region = "sjc"
 
 [build]
-  image = "python:3.10-slim"
 
 [env]
   PORT = "8080"
