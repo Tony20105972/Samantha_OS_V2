@@ -1,0 +1,11 @@
+// agentlayer/constitution.json
+
+{
+  "rules": [
+    {
+      "name": "Output must exist",
+      "description": "The flow must generate some output",
+      "condition": "'step3' in result"
+    }
+  ]
+}
