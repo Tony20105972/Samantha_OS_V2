@@ -10,7 +10,7 @@ def send_to_slack(message: str):
         try:
             requests.post(slack_url, json={"text": message})
         except Exception as e:
-            print("Slack 전송 실패:", e)
+            print("Slack delivery failed:", e)
 
 def send_to_webhook(payload: dict):
     webhook_url = os.getenv("CUSTOM_WEBHOOK_URL")
@@ -18,20 +18,49 @@ def send_to_webhook(payload: dict):
         try:
             requests.post(webhook_url, json=payload)
         except Exception as e:
-            print("Webhook 전송 실패:", e)
+            print("Webhook delivery failed:", e)
 
 def save_output_html(result: dict, violations: list):
     timestamp = datetime.utcnow().isoformat()
     html_content = f"""
     <html>
-    <head><title>AgentLayer 실행 결과</title></head>
+    <head>
+        <title>AgentLayer Execution Report</title>
+        <style>
+            body {{
+                font-family: 'Segoe UI', sans-serif;
+                padding: 2em;
+                background: #f9f9f9;
+            }}
+            h1 {{ color: #2c3e50; }}
+            .section {{
+                background: #ffffff;
+                padding: 1.5em;
+                border-radius: 10px;
+                margin-bottom: 1.5em;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            }}
+            pre {{
+                background: #f4f4f4;
+                padding: 1em;
+                border-radius: 6px;
+                overflow-x: auto;
+            }}
+        </style>
+    </head>
     <body>
-        <h1>🎯 Agent 실행 리포트</h1>
-        <p><b>🕒 실행 시각:</b> {timestamp}</p>
-        <h2>✅ 실행 결과</h2>
-        <pre>{result}</pre>
-        <h2>⚠️ 위반 항목</h2>
-        <pre>{violations if violations else '없음 🙌'}</pre>
+        <h1>🚀 Agent Execution Report</h1>
+        <div class="section">
+            <strong>🕒 Timestamp:</strong> {timestamp}
+        </div>
+        <div class="section">
+            <h2>✅ Execution Result</h2>
+            <pre>{result}</pre>
+        </div>
+        <div class="section">
+            <h2>⚠️ Violations Detected</h2>
+            <pre>{violations if violations else 'None – all rules passed! 🎉'}</pre>
+        </div>
     </body>
     </html>
     """
