@@ -3,3 +3,6 @@ uvicorn
 httpx
 pyyaml
 pytest
+requests
+jinja2
+
